@@ -192,6 +192,124 @@ namespace CodingProblems
             }
             return ++i;
         }
+
+        /// <summary>
+        /// Determines if the string containing sets of parentheses is valid.
+        /// </summary>
+        /// <param name="s">string of parentheses</param>
+        /// <returns>Whether the order of parentheses is valid</returns>
+        public bool IsValid(string s)
+        {
+            if (s.Length % 2 != 0) { return false; }
+            Stack<char> stack = new Stack<char>();
+            for (int i = 0; i < s.Length; i++)
+            {
+                switch (s[i])
+                {
+                    case ('('):
+                        stack.Push('(');
+                        break;
+                    case ('{'):
+                        stack.Push('{');
+                        break;
+                    case ('['):
+                        stack.Push('[');
+                        break;
+                    case (')'):
+                        if (stack.Count > 0 && stack.Pop() != '(')
+                        {
+                            return false;
+                        }
+                        break;
+                    case ('}'):
+                        if (stack.Count > 0 && stack.Pop() != '{')
+                        {
+                            return false;
+                        }
+                        break;
+                    case (']'):
+                        if (stack.Count > 0 && stack.Pop() != '[')
+                        {
+                            return false;
+                        }
+                        break;
+                }
+            }
+            return stack.Count == 0;
+        }
+
+
+        /// <summary>
+        /// Merge two sorted lists of ListNodes together, in order.
+        /// </summary>
+        /// <param name="l1">First list to be merged</param>
+        /// <param name="l2">Second list to be merged</param>
+        /// <returns>The merged list</returns>
+        public ListNode MergeTwoLists(ListNode l1, ListNode l2)
+        {
+            ListNode dummyHead = new ListNode(0);
+            ListNode curr = dummyHead;
+            while (l1 != null || l2 != null)
+            {
+                if (l1 == null)
+                {
+                    curr.next = new ListNode(l2.val);
+                    curr = curr.next;
+                    l2 = l2.next;
+                    continue;
+                }
+                if (l2 == null)
+                {
+                    curr.next = new ListNode(l1.val);
+                    curr = curr.next;
+                    l1 = l1.next;
+                    continue;
+                }
+                if (l1.val < l2.val)
+                {
+                    curr.next = new ListNode(l1.val);
+                    curr = curr.next;
+                    l1 = l1.next;
+                    continue;
+                }
+                if (l1.val > l2.val)
+                {
+                    curr.next = new ListNode(l2.val);
+                    curr = curr.next;
+                    l2 = l2.next;
+                    continue;
+                }
+                if (l1.val == l2.val)
+                {
+                    curr.next = new ListNode(l1.val);
+                    curr = curr.next;
+                    curr.next = new ListNode(l2.val);
+                    curr = curr.next;
+                    l1 = l1.next;
+                    l2 = l2.next;
+                    continue;
+                }
+            }
+            return dummyHead.next;
+        }
+
+        /// <summary>
+        /// Return the index of target if it exists within the sorted array, otherwise return the index of where it would be placed.
+        /// </summary>
+        /// <param name="nums">Number array</param>
+        /// <param name="target">Target to check for insertion index</param>
+        /// <returns>Index or insertion index</returns>
+        public int SearchInsert(int[] nums, int target)
+        {
+            if (target <= nums[0]) { return 0; }
+            if (target > nums[nums.Length - 1]) { return nums.Length; }
+            for (int i = 0; i < nums.Length - 1; i++)
+            {
+                if (target == nums[i]) { return i; }
+                if (target > nums[i] && target < nums[i + 1]) { return i + 1; }
+            }
+            return nums.Length - 1;
+        }
     }
 
     
