@@ -310,6 +310,187 @@ namespace CodingProblems
             }
             return nums.Length - 1;
         }
+
+        
+        /// <summary>
+        /// Determines whether or not the given sentence is a pangram (contains at least one instance of all letters in the alphabet)
+        /// </summary>
+        /// <param name="sentence">The sentence to be checked as a Pangram</param>
+        /// <returns>True if sentence is a Pangram, false otherwise.</returns>
+        public bool IsPangram(string sentence)
+        {
+            sentence = sentence.ToLower();
+            string alphabet = "abcdefghijklmnopqrstuvwxyz";
+            Char[] arr = sentence.ToArray();
+            Array.Sort(arr);
+            HashSet<Char> hs = new HashSet<Char>(arr);
+            int matchIndex = 0;
+            foreach (char c in hs)
+            {
+                matchIndex += (c == alphabet[matchIndex]) ? 1 : 0;
+                if (matchIndex == alphabet.Length)
+                {
+                    break;
+                }
+            }
+            return matchIndex == alphabet.Length;
+        }
+
+        /// <summary>
+        /// An SOS message has been sent from the Mars rover. This function determines how many Characters in the message have been
+        /// corrupted by radiation.
+        /// </summary>
+        /// <param name="SOS">The SOS message</param>
+        /// <returns>Number of corrupted Chars</returns>
+        public int CountSOSErrors(string SOS)
+        {
+            int errors = 0;
+            Char[] cs = { 'S', 'O', 'S' };
+            for (int i = 0; i < SOS.Length; i++)
+            {
+                int m = i % 3;
+                errors += (cs[m] != SOS[i] ? 1 : 0);
+            }
+            return errors;
+        }
+
+
+        /// <summary>
+        /// Encrypts the given string by shifting each character by k, case sensitive, and only alphanumerically.
+        /// </summary>
+        /// <param name="s">The message to be encoded</param>
+        /// <param name="k">The amount to shift each character by</param>
+        /// <returns>The encoded string</returns>
+        public string CaesarCipher(string s, int k)
+        {
+            string rs = "";
+            foreach (char c in s)
+            {
+                k = k % 26;
+
+                if (Char.IsUpper(c))
+                {
+                    rs += (int)c + k > 90 ? (char)(65 + ((((int)c) + k) % 91)) : (char)(((int)c) + k);
+                    continue;
+                }
+                if (Char.IsLower(c))
+                {
+                    rs += (int)c + k > 122 ? (char)(97 + ((((int)c) + k) % 123)) : (char)(((int)c) + k);
+                    continue;
+                }
+                rs += c;
+            }
+            return rs;
+        }
+
+
+        /// <summary>
+        /// Helper function for "Two Character" problem. Determines if the given string is an acceptable two character
+        /// string, meaning it only contains two alternating chars.
+        /// </summary>
+        /// <param name="s">The string to check for two character validity</param>
+        /// <returns>Whether the string is valid or not</returns>
+        static bool validString(string s)
+        {
+            if (s.Length < 2) { return false; }
+            Char char1 = s[0];
+            Char char2 = s[1];
+
+            for (int i = 2; i < s.Length; i++)
+            {
+                if (i % 2 == 0 && char1 == s[i])
+                {
+                    continue;
+                }
+                if (i % 2 == 1 && char2 == s[i])
+                {
+                    continue;
+                }
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// String S always consists of two distinct alternating characters. For example, if string S's two distinct characters are x and y, then t could be xyxyx or yxyxy but not xxyy or xyyx.
+        /// You can convert some string S to string T by deleting characters from S. When you delete a character from S, you must delete all occurrences of it in S. For example, if S=abaacdabd and you delete the character a, then the string becomes bcdbd.
+        /// Given T, convert it to the longest possible string S. Then print the length of string T on a new line; if no string can be formed from S, print instead.
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public int TwoCharacters(string s)
+        {
+            HashSet<Char> hs = new HashSet<Char>(s);
+            int maxLength = 0;
+            for (int c1 = 0; c1 < hs.Count - 1; c1++)
+            {
+                for (int c2 = c1 + 1; c2 < hs.Count; c2++)
+                {
+                    string acc = "";
+                    for (int j = 0; j < s.Length; j++)
+                    {
+                        acc += (s[j] == hs.ElementAt(c1) || s[j] == hs.ElementAt(c2)) ? s[j].ToString() : "";
+                    }
+                    maxLength = (validString(acc) && acc.Length > maxLength) ? acc.Length : maxLength;
+                }
+            }
+            return maxLength;
+        }
+
+        /// <summary>
+        /// Returns the number of words in the given camelCase formatted String
+        /// </summary>
+        /// <param name="s">The camelCase string</param>
+        /// <returns>The number of words in the string</returns>
+        public int validCamelCase(string s)
+        {
+            if (s.Length < 1)
+            {
+                Console.WriteLine("0");
+            }
+            int words = 1;
+            foreach (char c in s)
+            {
+                words += Char.IsUpper(c) ? 1 : 0;
+            }
+            return words;
+        }
+
+
+        /// <summary>
+        /// Given a string s, reduce the size of the string by the following specifications: 
+        /// The string can only be reduced by deleting pairs of adjecent letters. So "aabcc" could become
+        /// either "aab" or "bcc" after 1 operation. 
+        /// </summary>
+        /// <param name="s">The string to reduce</param>
+        /// <returns>The unreducable string</returns>
+        public string SuperReducedString(string s)
+        {
+            string rs = s;
+            bool reduced = true;
+            while (reduced)
+            {
+                reduced = false;
+                string t = "";
+                for (int i = 0; i < rs.Length; i++)
+                {
+                    if ((i == rs.Length - 1) || rs[i] != rs[i + 1] || reduced)
+                    {
+                        t += rs[i];
+                    }
+                    else
+                    {
+                        i++;
+                        reduced = true;
+                    }
+                }
+                rs = t;
+            }
+            return (rs == "" ? "Empty String" : rs);
+        }
+
+
+
     }
 
     

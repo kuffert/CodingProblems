@@ -1,0 +1,6 @@
+F:\Professional\PracticeCodeRepo\CodingProblems\CodingProblems\bin\Debug\CodingProblems.exe.config
+F:\Professional\PracticeCodeRepo\CodingProblems\CodingProblems\bin\Debug\CodingProblems.exe
+F:\Professional\PracticeCodeRepo\CodingProblems\CodingProblems\bin\Debug\CodingProblems.pdb
+F:\Professional\PracticeCodeRepo\CodingProblems\CodingProblems\obj\Debug\CodingProblems.csprojResolveAssemblyReference.cache
+F:\Professional\PracticeCodeRepo\CodingProblems\CodingProblems\obj\Debug\CodingProblems.exe
+F:\Professional\PracticeCodeRepo\CodingProblems\CodingProblems\obj\Debug\CodingProblems.pdb
